@@ -33,7 +33,13 @@ $url = 'xxxx';
 $client = new CurlClient();
 
  $validator = new TournamentValidator();
+ 
+ try {
  $tournaments = $client->send($url);
+ 	
+ } catch (Exception $e){
+ //logowanie i koniec piesni	
+ }
  
  $output = array();
  
