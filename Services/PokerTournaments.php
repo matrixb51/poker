@@ -27,9 +27,12 @@ class PokerTournaments {
             foreach($filters as $type => $filter) {
                 switch($type){
                     case 'INTEGER_VALUES':
-                        if( !filter_var($tournament[$filter[0]], FILTER_VALIDATE_INT, array('options'=>$filter[1])) ) {
-                            $valid_tournament = FALSE;
+                        foreach($filter as $field => $conditions) {
+                            if( !filter_var((int)$tournament->$field, FILTER_VALIDATE_INT, array('options'=>$conditions)) ) {
+                                $valid_tournament = FALSE;
+                            }   
                         }
+
                         break;
                 }
             } 

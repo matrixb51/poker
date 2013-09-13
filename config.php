@@ -6,6 +6,6 @@ $currency_feed_url = 'http://www.youwin.com/en/connectors/bit8/get-exchange-rate
 
 $tournaments_filters = array(
     'INTEGER_VALUES' => array(
-            'total_prizepool' => array('min_range' => '1000')
+            'total_prizepool' => array('min_range' => 1000)
             )   
 );

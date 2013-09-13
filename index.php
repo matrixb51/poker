@@ -15,12 +15,36 @@ try {
     die($e->getMessage() . PHP_EOL);
 }
 
-$tournamentsXML = simplexml_load_string($feeder->sendRequest($poker_feed_url));
-$PokerTournaments = new PokerTournaments($tournamentsXML);
-$tournaments = $PokerTournaments->getFilteredTournaments($tournaments_filters);
+//$tournaments = simplexml_load_string($feeder->sendRequest($poker_feed_url));
+
+$fileN = 'upcoming_tournaments.xml';
+$tournaments = simplexml_load_file($fileN);
 
 
-//$currency_rates = simplexml_load_string($feeder->sendRequest($currency_feed_url));
+$conversion_rates = json_decode($feeder->sendRequest($currency_feed_url), TRUE);
 
-var_dump(count($tournaments));
+$transformer = new Transformer($conversion_rates);
+
+$validator = new TournamentValidator();
+
+$output = array();
+ 
+foreach($tournaments as $tournament) {
+ 	
+ 	if($validator->isValid($tournament)) {
+ 		
+		 $transformer->setTournament($tournament);
+ 		 $transformer->convertCurrency('USD','GBP');
+ 		 $transformer->convertTime();
+
+		 $output[] = $transformer->getTournament();
+ 	}
+  
+ }
+
+ if (count($output)) {
+	echo json_encode($output);	
+}
+
+
 

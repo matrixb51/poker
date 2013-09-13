@@ -36,7 +36,7 @@ class CurlClient
             if ($status !== 200) {
                 throw new Exception(sprintf('Query call "%s" returned error code %s: "%s"', $url, $status, $result));
             }
-            print_r($status);
+
             return $result;
         }
         curl_close($ch);
